@@ -5,12 +5,13 @@ namespace App\Services\Markets;
 
 
 use App\Models\Asset;
+use Illuminate\Cache\RateLimiter;
 use Illuminate\Support\Facades\Http;
 
 class BitcoinTradeService extends MarketService
 {
-    const ORIGIN = 'Bitcoin Trade';
     const URL = 'https://api.bitcointrade.com.br/';
+    const TPS = 1;
     const CURRENT = 'BRL';
 
     public function summary(Asset $asset): array
@@ -20,6 +21,8 @@ class BitcoinTradeService extends MarketService
         if (cache()->has($key)) {
             return cache()->get($key);
         }
+
+        $this->throttle();
 
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
@@ -44,5 +47,23 @@ class BitcoinTradeService extends MarketService
         }
 
         throw new \Exception("Couldn't get summary from asset $asset->code HTTP status: " . $response->status());
+    }
+
+    /**
+     * Apply TPS
+     *
+     * @return $this
+     */
+    public function throttle()
+    {
+        $limiter = app(RateLimiter::class);
+
+        while ($limiter->tooManyAttempts('TPS_' . get_called_class(), self::TPS)) {
+            sleep(1);
+        }
+
+        $limiter->hit('TPS_' . get_called_class(), 1);
+
+        return $this;
     }
 }
