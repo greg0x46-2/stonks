@@ -18,7 +18,11 @@ class MarketSeeder extends Seeder
         Market::create(['name' => 'Bitcoin Trade'])->assets()->attach([
             Asset::findByCode('btc')->id,
             Asset::findByCode('eth')->id,
-            Asset::findByCode('xrp')->id
+            Asset::findByCode('xrp')->id,
+            Asset::findByCode('ltc')->id,
+            Asset::findByCode('bch')->id,
+            Asset::findByCode('eos')->id,
+            Asset::findByCode('dai')->id
         ]);
     }
 }
