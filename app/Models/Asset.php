@@ -18,4 +18,9 @@ class Asset extends Model
     {
         return Asset::where('code', strtoupper($code))->first();
     }
+
+    public function markets()
+    {
+        return $this->belongsToMany(Market::class);
+    }
 }
