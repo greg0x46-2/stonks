@@ -13,4 +13,9 @@ class Asset extends Model
         'code',
         'type'
     ];
+
+    public static function findByCode($code)
+    {
+        return Asset::where('code', strtoupper($code))->first();
+    }
 }

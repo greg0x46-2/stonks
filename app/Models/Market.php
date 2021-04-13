@@ -12,4 +12,9 @@ class Market extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function assets()
+    {
+        return $this->belongsToMany(Asset::class);
+    }
 }
