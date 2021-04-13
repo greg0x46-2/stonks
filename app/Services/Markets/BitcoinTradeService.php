@@ -59,7 +59,7 @@ class BitcoinTradeService extends MarketService
         $limiter = app(RateLimiter::class);
 
         while ($limiter->tooManyAttempts('TPS_' . get_called_class(), self::TPS)) {
-            sleep(1);
+            sleep(1.5);
         }
 
         $limiter->hit('TPS_' . get_called_class(), 1);
