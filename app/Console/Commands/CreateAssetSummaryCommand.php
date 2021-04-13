@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Asset;
 use App\Models\AssetSummary;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class CreateAssetSummaryCommand extends Command
 {
@@ -44,7 +45,11 @@ class CreateAssetSummaryCommand extends Command
 
         foreach ($this->assets as $asset) {
             foreach ($asset->markets as $market) {
-                AssetSummary::create(($market->service())->summary($asset));
+                try{
+                    AssetSummary::create(($market->service())->summary($asset));
+                }catch (\Throwable $e){
+                    Log::error($e->getMessage());
+                }
             }
         }
 
