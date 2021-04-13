@@ -32,6 +32,8 @@ class CreateAssetSummariesTable extends Migration
             $table->foreign('market_id')
                 ->references('id')
                 ->on('markets');
+
+            $table->index('price_at');
         });
     }
 
