@@ -29,7 +29,7 @@ class BitcoinTradeService extends MarketService
         if ($response->successful()) {
             $decoded = $response->json();
 
-            return cache()->remember(get_called_class() . 'currency' . $asset->code, 300, function () use ($asset, $decoded) {
+            return cache()->remember(get_called_class() . 'currency' . $asset->code, 295, function () use ($asset, $decoded) {
                 return [
                     'asset_id' => $asset->id,
                     'market_id' => $this->market->id,
