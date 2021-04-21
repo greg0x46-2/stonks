@@ -24,9 +24,8 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(OrderRequest $request)
+    public function create(Request $request)
     {
-        return response()->json(Order::create($request->all()), 201);
     }
 
     /**
@@ -35,9 +34,14 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(OrderRequest $request)
     {
-        //
+        return response([
+           'message' => 'Created.',
+           'data' => [
+               $request->user()->orders()->create($request->all())
+           ]
+        ]);
     }
 
     /**

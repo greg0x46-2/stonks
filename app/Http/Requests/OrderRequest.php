@@ -13,7 +13,7 @@ class OrderRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,14 @@ class OrderRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'asset_id' => 'required',
+            'market_id' => 'required',
+            'type' => 'required',
+            'executed_at' => 'required',
+            'amount' => 'required',
+            'price' => 'required',
+            'fee_percentage',
+            'fee'
         ];
     }
 }
