@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOrdersTable extends Migration
+class CreateAssetWalletTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,17 @@ class CreateOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('asset_wallet', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('asset_id');
             $table->unsignedBigInteger('wallet_id');
-            $table->enum('type', ['B', 'S']);
-            $table->date('executed_at');
-            $table->float('amount');
-            $table->float('price');
-            $table->float('fee_percentage')->default(0);
-            $table->float('fee')->default(0);
+            $table->double('amount')
+                ->default(0);
+            $table->double('avg_price')
+                ->default(0);
             $table->timestamps();
+
+            $table->unique(['asset_id', 'wallet_id']);
 
             $table->foreign('asset_id')
                 ->references('id')
@@ -42,6 +42,6 @@ class CreateOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('asset_wallet');
     }
 }

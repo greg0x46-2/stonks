@@ -10,9 +10,8 @@ class Order extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
         'asset_id',
-        'market_id',
+        'wallet_id',
         'type',
         'executed_at',
         'amount',
@@ -21,18 +20,13 @@ class Order extends Model
         'fee'
     ];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
     public function asset()
     {
         return $this->belongsTo(Asset::class);
     }
 
-    public function market()
+    public function wallet()
     {
-        return $this->belongsTo(Market::class);
+        return $this->belongsTo(Wallet::class);
     }
 }

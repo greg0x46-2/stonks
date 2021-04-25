@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -42,8 +43,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function orders()
+    public function wallet($market)
     {
-        return $this->hasMany(Order::class);
+        $marketId = $market instanceof Market ? $market->id : $market;
+
+        return $this->hasMany(Wallet::class)
+            ->where('market_id', $marketId)
+            ->firstOrCreate(['market_id' => $marketId]);
     }
 }
