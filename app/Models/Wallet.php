@@ -58,7 +58,7 @@ class Wallet extends Model
 
         if ($order->type == 'B') {
             $metadata['amount'] = $order->amount + $asset->pivot->amount;
-            $metadata['avg_price'] = (($order->amount * $order->price) + ($asset->pivot->amount * $asset->pivot->avg_price)) / $metadata['amount'];
+            $metadata['avg_price'] = ($order->totalPrice() + ($asset->pivot->amount * $asset->pivot->avg_price)) / $metadata['amount'];
         } else {
             $metadata['amount'] = $asset->pivot->amount - $order->amount;
         }

@@ -29,4 +29,15 @@ class Order extends Model
     {
         return $this->belongsTo(Wallet::class);
     }
+
+    public function totalFee(): float
+    {
+        return $this->fee + ($this->price * $this->amount) * $this->fee_percentage / 100;
+    }
+
+    public function totalPrice(): float
+    {
+        return $this->price * $this->amount + $this->totalFee();
+    }
+
 }
